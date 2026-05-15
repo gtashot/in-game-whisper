@@ -157,6 +157,9 @@ function Index() {
         <div className="mt-1 text-white/80">Try /me waves</div>
       </div>
 
+      {/* GTA V style notifications */}
+      <Notifications />
+
       {/* Chat overlay */}
       <div className="absolute left-5 top-5 w-[min(520px,70vw)]">
         <div className="relative">
