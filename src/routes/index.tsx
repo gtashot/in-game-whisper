@@ -147,25 +147,6 @@ function Index() {
       <div className="absolute inset-0 bg-samp-scene" aria-hidden />
       <div className="absolute inset-0 bg-samp-vignette" aria-hidden />
 
-      {/* Minecraft-style top bar */}
-      <div className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 select-none">
-        <div
-          className="flex items-center gap-2 px-3 py-1.5 text-[14px] font-bold tracking-wide text-white"
-          style={{
-            fontFamily: '"Minecraftia", "VT323", ui-monospace, monospace',
-            background: "rgba(64,64,64,0.78)",
-            border: "2px solid rgba(0,0,0,0.55)",
-            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08), 2px 2px 0 rgba(0,0,0,0.45)",
-            textShadow: "2px 2px 0 rgba(0,0,0,0.65)",
-            imageRendering: "pixelated",
-          }}
-        >
-          <span className="inline-block h-3 w-3 bg-emerald-400" style={{ boxShadow: "inset -1px -1px 0 rgba(0,0,0,0.4)" }} />
-          <span>gtashot.com</span>
-          <span className="text-white/70">v1.0.1</span>
-        </div>
-      </div>
-
       {/* HUD hint */}
       <div className="samp-text pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-semibold leading-tight text-white">
         <div className="flex items-center justify-end gap-1.5">
