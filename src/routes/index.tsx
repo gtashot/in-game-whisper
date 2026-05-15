@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply } from "lucide-react";
+import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply, Crown, Briefcase, Phone, ShieldAlert, Car, DollarSign, Radio, type LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -156,6 +156,9 @@ function Index() {
         </div>
         <div className="mt-1 text-white/80">Try /me waves</div>
       </div>
+
+      {/* GTA V style notifications */}
+      <Notifications />
 
       {/* Chat overlay */}
       <div className="absolute left-5 top-5 w-[min(520px,70vw)]">
@@ -340,3 +343,160 @@ function ToolBtn({ title, children }: { title: string; children: ReactNode }) {
 function Divider() {
   return <span className="mx-1 h-4 w-px bg-white/10" />;
 }
+
+// ====================== GTA V Notifications ======================
+
+type NotifSize = "sm" | "md" | "lg";
+
+type Notif = {
+  id: number;
+  icon: LucideIcon;
+  accent: string; // tailwind text color class for icon tile
+  title: string;
+  body?: string;
+  size: NotifSize;
+};
+
+const NOTIF_POOL: Omit<Notif, "id">[] = [
+  {
+    icon: Crown,
+    accent: "text-amber-400",
+    title: "Haviland",
+    body: "I am happy to report that your security team have prevented a police raid on one of your businesses. Excellent news. Production continues as normal.",
+    size: "lg",
+  },
+  {
+    icon: DollarSign,
+    accent: "text-emerald-400",
+    title: "Bank of Los Santos",
+    body: "Deposit received: $24,500",
+    size: "sm",
+  },
+  {
+    icon: Phone,
+    accent: "text-sky-400",
+    title: "Lamar",
+    body: "Yo homie, meet me at the Vespucci pier in 5.",
+    size: "md",
+  },
+  {
+    icon: ShieldAlert,
+    accent: "text-rose-400",
+    title: "LSPD Alert",
+    body: "Wanted level increased. Lose the cops to evade.",
+    size: "md",
+  },
+  {
+    icon: Briefcase,
+    accent: "text-amber-400",
+    title: "Mission Available",
+    body: "Heist setup ready at the planning board.",
+    size: "md",
+  },
+  {
+    icon: Car,
+    accent: "text-sky-400",
+    title: "Vehicle Delivered",
+    body: "Your Pegassi Zentorno is at the garage.",
+    size: "sm",
+  },
+  {
+    icon: Radio,
+    accent: "text-violet-400",
+    title: "Weazel News",
+    body: "Breaking: stock market spikes after CEO scandal.",
+    size: "md",
+  },
+  {
+    icon: DollarSign,
+    accent: "text-emerald-400",
+    title: "Maze Bank",
+    body: "Loan approved",
+    size: "sm",
+  },
+];
+
+function Notifications() {
+  const [items, setItems] = useState<Notif[]>([]);
+  const counter = useRef(0);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const push = () => {
+      if (cancelled) return;
+      const tpl = NOTIF_POOL[Math.floor(Math.random() * NOTIF_POOL.length)];
+      counter.current += 1;
+      const id = counter.current;
+      setItems((prev) => [...prev.slice(-4), { ...tpl, id }]);
+      const lifetime = tpl.size === "lg" ? 8000 : tpl.size === "md" ? 6000 : 4500;
+      setTimeout(() => {
+        if (cancelled) return;
+        setItems((prev) => prev.filter((n) => n.id !== id));
+      }, lifetime);
+    };
+
+    const first = setTimeout(push, 1500);
+    const interval = setInterval(push, 6500);
+    return () => {
+      cancelled = true;
+      clearTimeout(first);
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div className="pointer-events-none absolute right-5 top-20 z-30 flex w-[340px] flex-col items-end gap-2">
+      <AnimatePresence initial={false}>
+        {items.map((n) => (
+          <motion.div
+            key={n.id}
+            layout
+            initial={{ opacity: 0, x: 40, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 40, scale: 0.96, transition: { duration: 0.25 } }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
+          >
+            <NotificationCard n={n} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function NotificationCard({ n }: { n: Notif }) {
+  const Icon = n.icon;
+  const padX = n.size === "sm" ? "px-3" : "px-4";
+  const padY = n.size === "sm" ? "py-2.5" : n.size === "lg" ? "py-3.5" : "py-3";
+  const titleSize = n.size === "lg" ? "text-[15px]" : "text-[13px]";
+  const bodySize = n.size === "lg" ? "text-[13.5px]" : "text-[12.5px]";
+  const iconBox = n.size === "lg" ? "size-12" : n.size === "md" ? "size-10" : "size-9";
+  const iconSize = n.size === "lg" ? "size-6" : n.size === "md" ? "size-5" : "size-[18px]";
+
+  return (
+    <div
+      className={`relative flex w-full items-start gap-3 overflow-hidden rounded-md border border-white/[0.06] bg-[#0a0a0a] ${padX} ${padY} shadow-[0_10px_30px_-10px_rgba(0,0,0,0.9)]`}
+    >
+      {/* left accent stripe */}
+      <span className="absolute inset-y-0 left-0 w-[2px] bg-amber-400/80" />
+
+      <div className={`flex ${iconBox} shrink-0 items-center justify-center rounded-sm bg-[#141414] ${n.accent}`}>
+        <Icon className={iconSize} strokeWidth={2.2} />
+      </div>
+
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className={`samp-text font-semibold text-white ${titleSize} leading-tight`}>
+          {n.title}
+        </div>
+        {n.body && (
+          <div className={`mt-1 ${bodySize} font-normal leading-snug text-white/85`} style={{ textShadow: "none" }}>
+            {n.body}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
