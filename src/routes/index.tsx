@@ -351,98 +351,95 @@ type NotifSize = "sm" | "md" | "lg";
 type Notif = {
   id: number;
   icon: LucideIcon;
-  accent: string; // tailwind text color class for icon tile
+  accent: string;
   title: string;
   body?: string;
   size: NotifSize;
 };
 
-const NOTIF_POOL: Omit<Notif, "id">[] = [
-  {
-    icon: Crown,
-    accent: "text-amber-400",
-    title: "Haviland",
-    body: "I am happy to report that your security team have prevented a police raid on one of your businesses. Excellent news. Production continues as normal.",
-    size: "lg",
-  },
-  {
-    icon: DollarSign,
-    accent: "text-emerald-400",
-    title: "Bank of Los Santos",
-    body: "Deposit received: $24,500",
-    size: "sm",
-  },
-  {
-    icon: Phone,
+// Tiny event bus so any part of the app can emit a notification.
+type NotifInput = Omit<Notif, "id">;
+type Listener = (n: NotifInput) => void;
+const listeners = new Set<Listener>();
+export function notify(n: NotifInput) {
+  listeners.forEach((l) => l(n));
+}
+function onNotify(l: Listener) {
+  listeners.add(l);
+  return () => {
+    listeners.delete(l);
+  };
+}
+
+// Helpers map real chat events → notifications.
+export const notifyChatMessage = (author: string, text: string) =>
+  notify({
+    icon: MessageSquare,
     accent: "text-sky-400",
-    title: "Lamar",
-    body: "Yo homie, meet me at the Vespucci pier in 5.",
-    size: "md",
-  },
-  {
-    icon: ShieldAlert,
-    accent: "text-rose-400",
-    title: "LSPD Alert",
-    body: "Wanted level increased. Lose the cops to evade.",
-    size: "md",
-  },
-  {
-    icon: Briefcase,
-    accent: "text-amber-400",
-    title: "Mission Available",
-    body: "Heist setup ready at the planning board.",
-    size: "md",
-  },
-  {
-    icon: Car,
-    accent: "text-sky-400",
-    title: "Vehicle Delivered",
-    body: "Your Pegassi Zentorno is at the garage.",
-    size: "sm",
-  },
-  {
-    icon: Radio,
+    title: author,
+    body: text,
+    size: text.length > 80 ? "lg" : text.length > 30 ? "md" : "sm",
+  });
+
+export const notifyAction = (text: string) =>
+  notify({
+    icon: MessageSquare,
     accent: "text-violet-400",
-    title: "Weazel News",
-    body: "Breaking: stock market spikes after CEO scandal.",
-    size: "md",
-  },
-  {
-    icon: DollarSign,
-    accent: "text-emerald-400",
-    title: "Maze Bank",
-    body: "Loan approved",
+    title: "Action",
+    body: text,
     size: "sm",
-  },
-];
+  });
+
+export const notifyJoin = (player: string) =>
+  notify({
+    icon: LogIn,
+    accent: "text-emerald-400",
+    title: "Player connected",
+    body: `${player} has joined the server`,
+    size: "sm",
+  });
+
+export const notifyLeave = (player: string) =>
+  notify({
+    icon: LogOut,
+    accent: "text-rose-400",
+    title: "Player disconnected",
+    body: `${player} has left the server`,
+    size: "sm",
+  });
+
+export const notifyError = (text: string) =>
+  notify({
+    icon: AlertTriangle,
+    accent: "text-rose-400",
+    title: "Error",
+    body: text,
+    size: "md",
+  });
+
+export const notifyServer = (text: string) =>
+  notify({
+    icon: ShieldAlert,
+    accent: "text-amber-400",
+    title: "Server",
+    body: text,
+    size: "md",
+  });
 
 function Notifications() {
   const [items, setItems] = useState<Notif[]>([]);
   const counter = useRef(0);
 
   useEffect(() => {
-    let cancelled = false;
-
-    const push = () => {
-      if (cancelled) return;
-      const tpl = NOTIF_POOL[Math.floor(Math.random() * NOTIF_POOL.length)];
+    return onNotify((tpl) => {
       counter.current += 1;
       const id = counter.current;
       setItems((prev) => [...prev.slice(-4), { ...tpl, id }]);
       const lifetime = tpl.size === "lg" ? 8000 : tpl.size === "md" ? 6000 : 4500;
       setTimeout(() => {
-        if (cancelled) return;
         setItems((prev) => prev.filter((n) => n.id !== id));
       }, lifetime);
-    };
-
-    const first = setTimeout(push, 1500);
-    const interval = setInterval(push, 6500);
-    return () => {
-      cancelled = true;
-      clearTimeout(first);
-      clearInterval(interval);
-    };
+    });
   }, []);
 
   return (
