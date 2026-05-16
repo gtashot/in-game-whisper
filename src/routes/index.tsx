@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply, MessageSquare, LogIn, LogOut, ShieldAlert, AlertTriangle, type LucideIcon } from "lucide-react";
+import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply, Crown, Briefcase, Phone, ShieldAlert, Car, DollarSign, Radio, type LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -96,17 +96,7 @@ function Index() {
   };
 
 
-  // Welcome notifications on mount
-  useEffect(() => {
-    const t1 = setTimeout(() => notifyServer("Connected to ls-rp.sa-mp.com:7777"), 600);
-    const t2 = setTimeout(() => notifyJoin("You"), 1400);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
-
-  // Ambient fake traffic — drives real chat events + notifications
+  // Ambient fake traffic
   useEffect(() => {
     const lines = [
       "yo anyone selling a sultan?",
@@ -121,30 +111,11 @@ function Index() {
       const color = PLAYER_COLORS[FAKE_PLAYERS.indexOf(player) % PLAYER_COLORS.length];
       const line = lines[Math.floor(Math.random() * lines.length)];
       if (line.startsWith("/me")) {
-        const text = `* ${player} ${line.slice(4)}`;
-        pushMessage({ type: "action", text });
-        notifyAction(text);
+        pushMessage({ type: "action", text: `* ${player} ${line.slice(4)}` });
       } else {
         pushMessage({ type: "chat", author: player, color, text: line });
-        notifyChatMessage(player, line);
       }
     }, 5500);
-    return () => clearInterval(id);
-  }, []);
-
-  // Periodic join/leave events
-  useEffect(() => {
-    const id = setInterval(() => {
-      const player = FAKE_PLAYERS[Math.floor(Math.random() * FAKE_PLAYERS.length)];
-      const joining = Math.random() < 0.55;
-      if (joining) {
-        pushMessage({ type: "server", text: `*** ${player} has joined the server` });
-        notifyJoin(player);
-      } else {
-        pushMessage({ type: "server", text: `*** ${player} has left the server` });
-        notifyLeave(player);
-      }
-    }, 12000);
     return () => clearInterval(id);
   }, []);
 
@@ -153,13 +124,9 @@ function Index() {
     const text = input.trim();
     if (text) {
       if (text.startsWith("/me ")) {
-        const line = `* You ${text.slice(4)}`;
-        pushMessage({ type: "action", text: line });
-        notifyAction(line);
+        pushMessage({ type: "action", text: `* You ${text.slice(4)}` });
       } else if (text.startsWith("/")) {
-        const err = `SERVER: Unknown command (${text}).`;
-        pushMessage({ type: "server", text: err });
-        notifyError(`Unknown command: ${text}`);
+        pushMessage({ type: "server", text: `SERVER: Unknown command (${text}).` });
       } else {
         pushMessage({ type: "chat", author: "You", color: "#ffffff", text });
       }
@@ -384,95 +351,98 @@ type NotifSize = "sm" | "md" | "lg";
 type Notif = {
   id: number;
   icon: LucideIcon;
-  accent: string;
+  accent: string; // tailwind text color class for icon tile
   title: string;
   body?: string;
   size: NotifSize;
 };
 
-// Tiny event bus so any part of the app can emit a notification.
-type NotifInput = Omit<Notif, "id">;
-type Listener = (n: NotifInput) => void;
-const listeners = new Set<Listener>();
-export function notify(n: NotifInput) {
-  listeners.forEach((l) => l(n));
-}
-function onNotify(l: Listener) {
-  listeners.add(l);
-  return () => {
-    listeners.delete(l);
-  };
-}
-
-// Helpers map real chat events → notifications.
-export const notifyChatMessage = (author: string, text: string) =>
-  notify({
-    icon: MessageSquare,
-    accent: "text-sky-400",
-    title: author,
-    body: text,
-    size: text.length > 80 ? "lg" : text.length > 30 ? "md" : "sm",
-  });
-
-export const notifyAction = (text: string) =>
-  notify({
-    icon: MessageSquare,
-    accent: "text-violet-400",
-    title: "Action",
-    body: text,
-    size: "sm",
-  });
-
-export const notifyJoin = (player: string) =>
-  notify({
-    icon: LogIn,
-    accent: "text-emerald-400",
-    title: "Player connected",
-    body: `${player} has joined the server`,
-    size: "sm",
-  });
-
-export const notifyLeave = (player: string) =>
-  notify({
-    icon: LogOut,
-    accent: "text-rose-400",
-    title: "Player disconnected",
-    body: `${player} has left the server`,
-    size: "sm",
-  });
-
-export const notifyError = (text: string) =>
-  notify({
-    icon: AlertTriangle,
-    accent: "text-rose-400",
-    title: "Error",
-    body: text,
-    size: "md",
-  });
-
-export const notifyServer = (text: string) =>
-  notify({
-    icon: ShieldAlert,
+const NOTIF_POOL: Omit<Notif, "id">[] = [
+  {
+    icon: Crown,
     accent: "text-amber-400",
-    title: "Server",
-    body: text,
+    title: "Haviland",
+    body: "I am happy to report that your security team have prevented a police raid on one of your businesses. Excellent news. Production continues as normal.",
+    size: "lg",
+  },
+  {
+    icon: DollarSign,
+    accent: "text-emerald-400",
+    title: "Bank of Los Santos",
+    body: "Deposit received: $24,500",
+    size: "sm",
+  },
+  {
+    icon: Phone,
+    accent: "text-sky-400",
+    title: "Lamar",
+    body: "Yo homie, meet me at the Vespucci pier in 5.",
     size: "md",
-  });
+  },
+  {
+    icon: ShieldAlert,
+    accent: "text-rose-400",
+    title: "LSPD Alert",
+    body: "Wanted level increased. Lose the cops to evade.",
+    size: "md",
+  },
+  {
+    icon: Briefcase,
+    accent: "text-amber-400",
+    title: "Mission Available",
+    body: "Heist setup ready at the planning board.",
+    size: "md",
+  },
+  {
+    icon: Car,
+    accent: "text-sky-400",
+    title: "Vehicle Delivered",
+    body: "Your Pegassi Zentorno is at the garage.",
+    size: "sm",
+  },
+  {
+    icon: Radio,
+    accent: "text-violet-400",
+    title: "Weazel News",
+    body: "Breaking: stock market spikes after CEO scandal.",
+    size: "md",
+  },
+  {
+    icon: DollarSign,
+    accent: "text-emerald-400",
+    title: "Maze Bank",
+    body: "Loan approved",
+    size: "sm",
+  },
+];
 
 function Notifications() {
   const [items, setItems] = useState<Notif[]>([]);
   const counter = useRef(0);
 
   useEffect(() => {
-    return onNotify((tpl) => {
+    let cancelled = false;
+
+    const push = () => {
+      if (cancelled) return;
+      const tpl = NOTIF_POOL[Math.floor(Math.random() * NOTIF_POOL.length)];
       counter.current += 1;
       const id = counter.current;
       setItems((prev) => [...prev.slice(-4), { ...tpl, id }]);
       const lifetime = tpl.size === "lg" ? 8000 : tpl.size === "md" ? 6000 : 4500;
       setTimeout(() => {
+        if (cancelled) return;
         setItems((prev) => prev.filter((n) => n.id !== id));
       }, lifetime);
-    });
+    };
+
+    const first = setTimeout(push, 1500);
+    const interval = setInterval(push, 6500);
+    return () => {
+      cancelled = true;
+      clearTimeout(first);
+      clearInterval(interval);
+    };
   }, []);
 
   return (
