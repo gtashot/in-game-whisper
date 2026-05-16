@@ -96,7 +96,17 @@ function Index() {
   };
 
 
-  // Ambient fake traffic
+  // Welcome notifications on mount
+  useEffect(() => {
+    const t1 = setTimeout(() => notifyServer("Connected to ls-rp.sa-mp.com:7777"), 600);
+    const t2 = setTimeout(() => notifyJoin("You"), 1400);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
+  // Ambient fake traffic — drives real chat events + notifications
   useEffect(() => {
     const lines = [
       "yo anyone selling a sultan?",
@@ -111,11 +121,30 @@ function Index() {
       const color = PLAYER_COLORS[FAKE_PLAYERS.indexOf(player) % PLAYER_COLORS.length];
       const line = lines[Math.floor(Math.random() * lines.length)];
       if (line.startsWith("/me")) {
-        pushMessage({ type: "action", text: `* ${player} ${line.slice(4)}` });
+        const text = `* ${player} ${line.slice(4)}`;
+        pushMessage({ type: "action", text });
+        notifyAction(text);
       } else {
         pushMessage({ type: "chat", author: player, color, text: line });
+        notifyChatMessage(player, line);
       }
     }, 5500);
+    return () => clearInterval(id);
+  }, []);
+
+  // Periodic join/leave events
+  useEffect(() => {
+    const id = setInterval(() => {
+      const player = FAKE_PLAYERS[Math.floor(Math.random() * FAKE_PLAYERS.length)];
+      const joining = Math.random() < 0.55;
+      if (joining) {
+        pushMessage({ type: "server", text: `*** ${player} has joined the server` });
+        notifyJoin(player);
+      } else {
+        pushMessage({ type: "server", text: `*** ${player} has left the server` });
+        notifyLeave(player);
+      }
+    }, 12000);
     return () => clearInterval(id);
   }, []);
 
@@ -124,9 +153,13 @@ function Index() {
     const text = input.trim();
     if (text) {
       if (text.startsWith("/me ")) {
-        pushMessage({ type: "action", text: `* You ${text.slice(4)}` });
+        const line = `* You ${text.slice(4)}`;
+        pushMessage({ type: "action", text: line });
+        notifyAction(line);
       } else if (text.startsWith("/")) {
-        pushMessage({ type: "server", text: `SERVER: Unknown command (${text}).` });
+        const err = `SERVER: Unknown command (${text}).`;
+        pushMessage({ type: "server", text: err });
+        notifyError(`Unknown command: ${text}`);
       } else {
         pushMessage({ type: "chat", author: "You", color: "#ffffff", text });
       }
