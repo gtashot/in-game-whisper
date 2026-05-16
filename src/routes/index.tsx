@@ -446,16 +446,16 @@ function Notifications() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute right-6 top-20 z-30 flex w-[360px] flex-col items-end gap-2.5">
+    <div className="pointer-events-none absolute right-5 top-20 z-30 flex w-[340px] flex-col items-end gap-2">
       <AnimatePresence initial={false}>
         {items.map((n) => (
           <motion.div
             key={n.id}
             layout
-            initial={{ opacity: 0, x: 60, filter: "blur(6px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, x: 30, filter: "blur(4px)", transition: { duration: 0.25 } }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: 40, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 40, scale: 0.96, transition: { duration: 0.25 } }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="w-full"
           >
             <NotificationCard n={n} />
@@ -466,71 +466,36 @@ function Notifications() {
   );
 }
 
-// Map text-color accent → solid bg + glow color
-const ACCENT_MAP: Record<string, { bg: string; glow: string; bar: string }> = {
-  "text-amber-400":  { bg: "bg-amber-500",  glow: "rgba(245,158,11,0.55)",  bar: "bg-amber-400" },
-  "text-emerald-400":{ bg: "bg-emerald-500",glow: "rgba(16,185,129,0.55)",  bar: "bg-emerald-400" },
-  "text-sky-400":    { bg: "bg-sky-500",    glow: "rgba(56,189,248,0.55)",  bar: "bg-sky-400" },
-  "text-rose-400":   { bg: "bg-rose-500",   glow: "rgba(244,63,94,0.55)",   bar: "bg-rose-400" },
-  "text-violet-400": { bg: "bg-violet-500", glow: "rgba(139,92,246,0.55)",  bar: "bg-violet-400" },
-};
-
 function NotificationCard({ n }: { n: Notif }) {
   const Icon = n.icon;
-  const accent = ACCENT_MAP[n.accent] ?? ACCENT_MAP["text-amber-400"];
-
-  const padY = n.size === "sm" ? "py-2.5" : n.size === "lg" ? "py-4" : "py-3";
+  const padX = n.size === "sm" ? "px-3" : "px-4";
+  const padY = n.size === "sm" ? "py-2.5" : n.size === "lg" ? "py-3.5" : "py-3";
   const titleSize = n.size === "lg" ? "text-[15px]" : "text-[13px]";
-  const bodySize = n.size === "lg" ? "text-[13px]" : "text-[12px]";
-  const iconBox = n.size === "lg" ? "h-14 w-14" : n.size === "md" ? "h-12 w-12" : "h-11 w-11";
-  const iconSize = n.size === "lg" ? "size-7" : n.size === "md" ? "size-6" : "size-5";
+  const bodySize = n.size === "lg" ? "text-[13.5px]" : "text-[12.5px]";
+  const iconBox = n.size === "lg" ? "size-12" : n.size === "md" ? "size-10" : "size-9";
+  const iconSize = n.size === "lg" ? "size-6" : n.size === "md" ? "size-5" : "size-[18px]";
 
   return (
     <div
-      className={`relative flex w-full items-stretch gap-0 overflow-hidden bg-black ${padY} pl-0 pr-3.5`}
-      style={{
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 14px 100%, 0 calc(100% - 14px))",
-        boxShadow: `0 12px 28px -10px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.05)`,
-      }}
+      className={`relative flex w-full items-start gap-3 overflow-hidden rounded-md border border-white/[0.06] bg-[#0a0a0a] ${padX} ${padY} shadow-[0_10px_30px_-10px_rgba(0,0,0,0.9)]`}
     >
-      {/* left accent bar */}
-      <span className={`relative w-[5px] shrink-0 ${accent.bar}`} style={{ boxShadow: `0 0 14px ${accent.glow}` }} />
+      {/* left accent stripe */}
+      <span className="absolute inset-y-0 left-0 w-[2px] bg-amber-400/80" />
 
-      {/* icon tile */}
-      <div className="flex shrink-0 items-center justify-center pl-3 pr-3">
-        <div
-          className={`flex ${iconBox} items-center justify-center text-white`}
-          style={{
-            background: `linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 60%), #111`,
-            border: "1px solid rgba(255,255,255,0.06)",
-          }}
-        >
-          <div className={`flex h-[78%] w-[78%] items-center justify-center ${accent.bg}`} style={{ boxShadow: `inset 0 -8px 14px rgba(0,0,0,0.35)` }}>
-            <Icon className={iconSize} strokeWidth={2.4} />
-          </div>
-        </div>
+      <div className={`flex ${iconBox} shrink-0 items-center justify-center rounded-sm bg-[#141414] ${n.accent}`}>
+        <Icon className={iconSize} strokeWidth={2.2} />
       </div>
 
-      {/* content */}
-      <div className="flex min-w-0 flex-1 flex-col justify-center py-0.5">
-        <div className="mb-0.5 flex items-center gap-2">
-          <span className={`text-[10px] font-bold uppercase tracking-[0.18em] text-white/45`}>
-            {n.size === "lg" ? "Incoming Message" : n.size === "md" ? "Notification" : "Alert"}
-          </span>
-          <span className="h-px flex-1 bg-white/10" />
-        </div>
-        <div className={`font-bold uppercase tracking-wide text-white ${titleSize} leading-tight`} style={{ textShadow: "0 1px 0 rgba(0,0,0,0.6)" }}>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className={`samp-text font-semibold text-white ${titleSize} leading-tight`}>
           {n.title}
         </div>
         {n.body && (
-          <div className={`mt-1 ${bodySize} font-normal leading-snug text-white/75`} style={{ textShadow: "none" }}>
+          <div className={`mt-1 ${bodySize} font-normal leading-snug text-white/85`} style={{ textShadow: "none" }}>
             {n.body}
           </div>
         )}
       </div>
-
-      {/* right hairline */}
-      <span className="pointer-events-none absolute inset-y-0 right-0 w-px bg-white/[0.04]" />
     </div>
   );
 }
