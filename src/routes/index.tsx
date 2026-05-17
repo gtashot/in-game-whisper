@@ -280,7 +280,7 @@ function ChatLine({ m }: { m: ChatMessage }) {
         >
           {m.author}
         </button>
-        <span className="text-white/40"> · </span>
+        <span className="text-white/50">: </span>
         <button
           type="button"
           disabled={!isOther}
