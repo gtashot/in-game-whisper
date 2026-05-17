@@ -557,12 +557,12 @@ function Minimap() {
             </div>
           </div>
         </div>
-        {/* Status bars - stacked, flush */}
-        <div className="mt-[3px] flex flex-col gap-[2px]">
+        {/* Status bars - inline, flush together */}
+        <div className="mt-[3px] flex h-[5px] w-full gap-[1px]">
           {stats.map((s, i) => (
-            <div key={i} className="h-[5px] w-full overflow-hidden rounded-full bg-white/10">
+            <div key={i} className="h-full flex-1 overflow-hidden bg-white/10 first:rounded-l-full last:rounded-r-full">
               <div
-                className={`h-full rounded-full bg-gradient-to-r ${s.from} ${s.to}`}
+                className={`h-full bg-gradient-to-r ${s.from} ${s.to}`}
                 style={{ width: `${s.value}%` }}
               />
             </div>
