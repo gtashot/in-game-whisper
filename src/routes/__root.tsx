@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "sdfsdfsdfdfsdf" },
+      { name: "description", content: "Game Chat Connect is a real-time in-game communication application." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "sdfsdfsdfdfsdf" },
+      { property: "og:description", content: "Game Chat Connect is a real-time in-game communication application." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "sdfsdfsdfdfsdf" },
+      { name: "twitter:description", content: "Game Chat Connect is a real-time in-game communication application." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a6db63db-6d86-4046-bf4b-0042be794c9f/id-preview-3be4e7c0--82fe5370-2c18-41ed-bbf1-5e49812e71cb.lovable.app-1779025666818.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a6db63db-6d86-4046-bf4b-0042be794c9f/id-preview-3be4e7c0--82fe5370-2c18-41ed-bbf1-5e49812e71cb.lovable.app-1779025666818.png" },
     ],
     links: [
       {
