@@ -175,7 +175,7 @@
   font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "SF Pro Text", sans-serif;
   font-weight: 600;
   letter-spacing: 0;
-  text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000, 0 2px 4px rgba(0, 0, 0, 0.9);
+  text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
   -webkit-font-smoothing: antialiased;
 }
 
