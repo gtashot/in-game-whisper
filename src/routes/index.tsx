@@ -520,7 +520,7 @@ function Minimap() {
   ];
   return (
     <div className="pointer-events-none absolute bottom-5 left-5 select-none">
-      <div className="rounded-xl border border-white/[0.06] bg-black/30 p-[3px] shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+      <div className="rounded-xl border border-white/[0.06] bg-black/30 p-[3px] pb-2 shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
         <div className="relative h-[170px] w-[250px] overflow-hidden rounded-[10px] bg-white">
           {/* Subtle grid */}
           <div
@@ -558,7 +558,8 @@ function Minimap() {
           </div>
         </div>
         {/* Status bars - inline, flush together */}
-        <div className="mt-[3px] flex h-[5px] w-full gap-[1px]">
+        <div className="mx-2 mt-2 flex h-[5px] gap-[1px]">
+
           {stats.map((s, i) => (
             <div key={i} className="h-full flex-1 overflow-hidden bg-white/10 first:rounded-l-full last:rounded-r-full">
               <div
