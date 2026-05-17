@@ -160,6 +160,9 @@ function Index() {
       {/* GTA V style notifications */}
       <Notifications />
 
+      {/* Minimap */}
+      <Minimap />
+
       {/* Chat overlay */}
       <div className="absolute left-5 top-5 w-[min(520px,70vw)]">
         <div className="relative">
