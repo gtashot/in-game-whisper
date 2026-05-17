@@ -553,14 +553,14 @@ function Minimap() {
           </div>
         </div>
         {/* Status bars */}
-        <div className="mt-2 flex gap-1.5">
-          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+        <div className="mt-2 flex gap-1.5 px-1 pb-0.5">
+          <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/10">
             <div className="h-full w-[78%] rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400" />
           </div>
-          <div className="h-1.5 w-14 overflow-hidden rounded-full bg-white/10">
+          <div className="h-1 w-12 overflow-hidden rounded-full bg-white/10">
             <div className="h-full w-[60%] rounded-full bg-gradient-to-r from-sky-500 to-sky-400" />
           </div>
-          <div className="h-1.5 w-14 overflow-hidden rounded-full bg-white/10">
+          <div className="h-1 w-12 overflow-hidden rounded-full bg-white/10">
             <div className="h-full w-[45%] rounded-full bg-gradient-to-r from-amber-400 to-yellow-300" />
           </div>
         </div>
