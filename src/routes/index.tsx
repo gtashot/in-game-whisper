@@ -558,7 +558,8 @@ function Minimap() {
           </div>
         </div>
         {/* Status bars - inline, flush together */}
-        <div className="mt-[3px] flex h-[5px] w-full gap-[1px]">
+        <div className="mx-2 mt-2 flex h-[5px] gap-[1px]">
+
           {stats.map((s, i) => (
             <div key={i} className="h-full flex-1 overflow-hidden bg-white/10 first:rounded-l-full last:rounded-r-full">
               <div
