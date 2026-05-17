@@ -145,7 +145,7 @@ function Index() {
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-samp-bg">
       <div className="absolute inset-0 bg-samp-scene" aria-hidden />
-      <div className="absolute inset-0 bg-samp-vignette" aria-hidden />
+      
 
       {/* HUD hint */}
       <div className="samp-text pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-semibold leading-tight text-white">
