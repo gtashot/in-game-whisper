@@ -513,8 +513,13 @@ function NotificationCard({ n }: { n: Notif }) {
 }
 
 function Minimap() {
+  const stats = [
+    { label: "HP", value: 78, from: "from-emerald-500", to: "to-emerald-400", text: "text-emerald-400" },
+    { label: "AR", value: 60, from: "from-sky-500", to: "to-sky-400", text: "text-sky-400" },
+    { label: "ST", value: 45, from: "from-amber-400", to: "to-yellow-300", text: "text-amber-400" },
+  ];
   return (
-    <div className="pointer-events-none absolute bottom-5 left-5 select-none">
+    <div className="pointer-events-none absolute bottom-5 left-5 flex select-none items-end gap-2">
       <div className="rounded-xl border border-white/[0.06] bg-black/30 p-[3px] shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
         <div className="relative h-[170px] w-[250px] overflow-hidden rounded-[10px] bg-white">
           {/* Subtle grid */}
@@ -552,21 +557,24 @@ function Minimap() {
             </div>
           </div>
         </div>
-        {/* Status bars */}
-        <div className="mt-2 flex gap-1.5 px-1 pb-0.5">
-          <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[78%] rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400" />
+      </div>
+      {/* Vertical status bars */}
+      <div className="flex h-[176px] items-end gap-2 rounded-xl border border-white/[0.06] bg-black/30 px-2.5 py-2.5 shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+        {stats.map((s) => (
+          <div key={s.label} className="flex h-full flex-col items-center gap-1.5">
+            <div className="relative h-full w-1.5 overflow-hidden rounded-full bg-white/10">
+              <div
+                className={`absolute bottom-0 left-0 w-full rounded-full bg-gradient-to-t ${s.from} ${s.to}`}
+                style={{ height: `${s.value}%` }}
+              />
+            </div>
+            <div className={`text-[9px] font-bold tracking-wider ${s.text}`}>{s.label}</div>
           </div>
-          <div className="h-1 w-12 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[60%] rounded-full bg-gradient-to-r from-sky-500 to-sky-400" />
-          </div>
-          <div className="h-1 w-12 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[45%] rounded-full bg-gradient-to-r from-amber-400 to-yellow-300" />
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
+
 
 
