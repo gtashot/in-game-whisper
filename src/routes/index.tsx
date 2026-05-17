@@ -515,28 +515,49 @@ function NotificationCard({ n }: { n: Notif }) {
 function Minimap() {
   return (
     <div className="pointer-events-none absolute bottom-5 left-5 select-none">
-      <div className="rounded-[6px] bg-black p-[6px]">
-        <div className="relative h-[170px] w-[250px] overflow-hidden rounded-[2px] bg-white">
-          {/* Cursor/player marker */}
-          <svg
-            viewBox="0 0 24 24"
-            className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2"
-            fill="#111"
-            stroke="#fff"
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-          >
-            <path d="M5 3 L5 19 L10 15 L13 21 L16 19.5 L13 13.5 L19 13 Z" />
-          </svg>
+      <div className="rounded-2xl border border-white/10 bg-black/40 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl ring-1 ring-inset ring-white/5">
+        <div className="relative h-[170px] w-[250px] overflow-hidden rounded-xl bg-white">
+          {/* Subtle grid */}
+          <div
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px)",
+              backgroundSize: "25px 25px",
+            }}
+          />
+          {/* Inner border highlight */}
+          <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10" />
+          {/* Player marker */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute -inset-3 rounded-full bg-black/10 blur-md" />
+            <svg
+              viewBox="0 0 24 24"
+              className="relative h-5 w-5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]"
+              fill="#111"
+              stroke="#fff"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            >
+              <path d="M5 3 L5 19 L10 15 L13 21 L16 19.5 L13 13.5 L19 13 Z" />
+            </svg>
+          </div>
         </div>
         {/* Status bars */}
-        <div className="mt-[6px] flex gap-[4px]">
-          <div className="h-[6px] flex-1 rounded-[1px] bg-[#7a9a4a]" />
-          <div className="h-[6px] w-[60px] rounded-[1px] bg-[#3a8ec4]" />
-          <div className="h-[6px] w-[60px] rounded-[1px] bg-[#e8c93a]" />
+        <div className="mt-2 flex gap-1.5">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+            <div className="h-full w-[78%] rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400" />
+          </div>
+          <div className="h-1.5 w-14 overflow-hidden rounded-full bg-white/10">
+            <div className="h-full w-[60%] rounded-full bg-gradient-to-r from-sky-500 to-sky-400" />
+          </div>
+          <div className="h-1.5 w-14 overflow-hidden rounded-full bg-white/10">
+            <div className="h-full w-[45%] rounded-full bg-gradient-to-r from-amber-400 to-yellow-300" />
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
 
