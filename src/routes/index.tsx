@@ -516,7 +516,7 @@ function Minimap() {
   return (
     <div className="pointer-events-none absolute bottom-5 left-5 select-none">
       <div className="rounded-xl border border-white/[0.06] bg-black/30 p-[3px] shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
-        <div className="relative h-[170px] w-[250px] overflow-hidden rounded-xl bg-white">
+        <div className="relative h-[170px] w-[250px] overflow-hidden rounded-[10px] bg-white">
           {/* Subtle grid */}
           <div
             className="absolute inset-0 opacity-[0.06]"
