@@ -475,12 +475,21 @@ function NotificationCard({ n }: { n: Notif }) {
   const iconBox = n.size === "lg" ? "size-12" : n.size === "md" ? "size-10" : "size-9";
   const iconSize = n.size === "lg" ? "size-6" : n.size === "md" ? "size-5" : "size-[18px]";
 
+  const stripeColor: Record<string, string> = {
+    "text-amber-400": "bg-amber-400",
+    "text-emerald-400": "bg-emerald-400",
+    "text-sky-400": "bg-sky-400",
+    "text-rose-400": "bg-rose-400",
+    "text-violet-400": "bg-violet-400",
+  };
+  const stripe = stripeColor[n.accent] ?? "bg-white";
+
   return (
     <div
       className={`relative flex w-full items-start gap-3 overflow-hidden rounded-md border border-white/[0.06] bg-[#0a0a0a] ${padX} ${padY}`}
     >
       {/* left accent stripe */}
-      <span className="absolute inset-y-0 left-0 w-[2px] bg-amber-400/80" />
+      <span className={`absolute inset-y-0 left-0 w-[3px] ${stripe}`} />
 
       <div className={`flex ${iconBox} shrink-0 items-center justify-center rounded-sm bg-[#141414] ${n.accent}`}>
         <Icon className={iconSize} strokeWidth={2.2} />
