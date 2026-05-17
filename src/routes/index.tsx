@@ -151,7 +151,7 @@ function Index() {
       <div className="samp-text pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-semibold leading-tight text-white">
         <div className="flex items-center justify-end gap-1.5">
           <span>Press</span>
-          <kbd className="rounded border border-white/20 bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] text-white shadow">T</kbd>
+          <kbd className="rounded border border-white/20 bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] text-white">T</kbd>
           <span>to chat</span>
         </div>
         <div className="mt-1 text-white/80">Try /me waves</div>
@@ -207,7 +207,7 @@ function Index() {
               animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, y: -8, scale: 0.98, filter: "blur(4px)" }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="pointer-events-auto mt-3 origin-top overflow-hidden rounded-lg border border-white/15 bg-neutral-950 shadow-2xl"
+              className="pointer-events-auto mt-3 origin-top overflow-hidden rounded-lg border border-white/15 bg-neutral-950"
             >
               <form onSubmit={submit}>
                 <div className="flex items-center gap-2 px-3 py-2">
@@ -291,7 +291,7 @@ function ChatLine({ m }: { m: ChatMessage }) {
           {m.text}
         </button>
         {openMenu === "name" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 shadow-2xl">
+          <div className="absolute left-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-md border border-white/15 bg-neutral-950">
             <div className="border-b border-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
               {m.author}
             </div>
@@ -301,7 +301,7 @@ function ChatLine({ m }: { m: ChatMessage }) {
           </div>
         )}
         {openMenu === "msg" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[160px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 shadow-2xl">
+          <div className="absolute left-0 top-full z-20 mt-1 min-w-[160px] overflow-hidden rounded-md border border-white/15 bg-neutral-950">
             <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
             <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
           </div>
@@ -477,7 +477,7 @@ function NotificationCard({ n }: { n: Notif }) {
 
   return (
     <div
-      className={`relative flex w-full items-start gap-3 overflow-hidden rounded-md border border-white/[0.06] bg-[#0a0a0a] ${padX} ${padY} shadow-[0_10px_30px_-10px_rgba(0,0,0,0.9)]`}
+      className={`relative flex w-full items-start gap-3 overflow-hidden rounded-md border border-white/[0.06] bg-[#0a0a0a] ${padX} ${padY}`}
     >
       {/* left accent stripe */}
       <span className="absolute inset-y-0 left-0 w-[2px] bg-amber-400/80" />
