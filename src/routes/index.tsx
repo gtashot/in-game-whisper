@@ -542,6 +542,15 @@ function Minimap() {
               <path d="M5 3 L5 19 L10 15 L13 21 L16 19.5 L13 13.5 L19 13 Z" />
             </svg>
           </div>
+          {/* Location label */}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/95">
+              Grove Street
+            </div>
+            <div className="text-[9px] font-medium uppercase tracking-wider text-white/60">
+              Los Santos
+            </div>
+          </div>
         </div>
         {/* Status bars */}
         <div className="mt-2 flex gap-1.5">
