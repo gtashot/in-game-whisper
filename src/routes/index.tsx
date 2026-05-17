@@ -515,18 +515,26 @@ function NotificationCard({ n }: { n: Notif }) {
 function Minimap() {
   return (
     <div className="pointer-events-none absolute bottom-5 left-5 select-none">
-      <div className="relative h-[170px] w-[230px] overflow-hidden rounded-md border border-black/60 bg-white ring-1 ring-white/10">
-        {/* Player marker */}
-        <div className="absolute left-1/2 top-1/2 h-0 w-0 -translate-x-1/2 -translate-y-1/2"
-             style={{
-               borderLeft: "6px solid transparent",
-               borderRight: "6px solid transparent",
-               borderBottom: "10px solid #111",
-             }}
-        />
-      </div>
-      <div className="samp-text mt-1.5 text-center text-[11px] font-semibold uppercase tracking-wider text-white/90">
-        Los Santos
+      <div className="rounded-[6px] bg-black p-[6px]">
+        <div className="relative h-[170px] w-[250px] overflow-hidden rounded-[2px] bg-white">
+          {/* Cursor/player marker */}
+          <svg
+            viewBox="0 0 24 24"
+            className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2"
+            fill="#111"
+            stroke="#fff"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          >
+            <path d="M5 3 L5 19 L10 15 L13 21 L16 19.5 L13 13.5 L19 13 Z" />
+          </svg>
+        </div>
+        {/* Status bars */}
+        <div className="mt-[6px] flex gap-[4px]">
+          <div className="h-[6px] flex-1 rounded-[1px] bg-[#7a9a4a]" />
+          <div className="h-[6px] w-[60px] rounded-[1px] bg-[#3a8ec4]" />
+          <div className="h-[6px] w-[60px] rounded-[1px] bg-[#e8c93a]" />
+        </div>
       </div>
     </div>
   );
