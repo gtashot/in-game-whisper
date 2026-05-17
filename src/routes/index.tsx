@@ -512,3 +512,23 @@ function NotificationCard({ n }: { n: Notif }) {
   );
 }
 
+function Minimap() {
+  return (
+    <div className="pointer-events-none absolute bottom-5 left-5 select-none">
+      <div className="relative h-[170px] w-[230px] overflow-hidden rounded-md border border-black/60 bg-white ring-1 ring-white/10">
+        {/* Player marker */}
+        <div className="absolute left-1/2 top-1/2 h-0 w-0 -translate-x-1/2 -translate-y-1/2"
+             style={{
+               borderLeft: "6px solid transparent",
+               borderRight: "6px solid transparent",
+               borderBottom: "10px solid #111",
+             }}
+        />
+      </div>
+      <div className="samp-text mt-1.5 text-center text-[11px] font-semibold uppercase tracking-wider text-white/90">
+        Los Santos
+      </div>
+    </div>
+  );
+}
+
