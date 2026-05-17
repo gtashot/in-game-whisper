@@ -515,7 +515,7 @@ function NotificationCard({ n }: { n: Notif }) {
 function Minimap() {
   return (
     <div className="pointer-events-none absolute bottom-5 left-5 select-none">
-      <div className="rounded-2xl border border-white/10 bg-black/40 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl ring-1 ring-inset ring-white/5">
+      <div className="rounded-xl border border-white/[0.06] bg-black/30 p-[3px] shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
         <div className="relative h-[170px] w-[250px] overflow-hidden rounded-xl bg-white">
           {/* Subtle grid */}
           <div
