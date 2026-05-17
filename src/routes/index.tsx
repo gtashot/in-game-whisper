@@ -515,8 +515,8 @@ function NotificationCard({ n }: { n: Notif }) {
 function Minimap() {
   return (
     <div className="pointer-events-none absolute bottom-5 left-5 select-none">
-      <div className="rounded-2xl border border-white/10 bg-black/40 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl ring-1 ring-inset ring-white/5">
-        <div className="relative h-[170px] w-[250px] overflow-hidden rounded-xl bg-white">
+      <div className="rounded-xl border border-white/[0.06] bg-black/30 p-[3px] shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+        <div className="relative h-[170px] w-[250px] overflow-hidden rounded-[10px] bg-white">
           {/* Subtle grid */}
           <div
             className="absolute inset-0 opacity-[0.06]"
@@ -527,7 +527,7 @@ function Minimap() {
             }}
           />
           {/* Inner border highlight */}
-          <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10" />
+          <div className="pointer-events-none absolute inset-0 rounded-[10px] ring-1 ring-inset ring-black/[0.08]" />
           {/* Player marker */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="absolute -inset-3 rounded-full bg-black/10 blur-md" />
@@ -541,6 +541,15 @@ function Minimap() {
             >
               <path d="M5 3 L5 19 L10 15 L13 21 L16 19.5 L13 13.5 L19 13 Z" />
             </svg>
+          </div>
+          {/* Location label */}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/95">
+              Grove Street
+            </div>
+            <div className="text-[9px] font-medium uppercase tracking-wider text-white/60">
+              Los Santos
+            </div>
           </div>
         </div>
         {/* Status bars */}
