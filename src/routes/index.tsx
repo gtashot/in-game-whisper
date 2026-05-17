@@ -527,7 +527,7 @@ function Minimap() {
             }}
           />
           {/* Inner border highlight */}
-          <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10" />
+          <div className="pointer-events-none absolute inset-0 rounded-[10px] ring-1 ring-inset ring-black/[0.08]" />
           {/* Player marker */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="absolute -inset-3 rounded-full bg-black/10 blur-md" />
