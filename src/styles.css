@@ -181,10 +181,10 @@
 
 /* Subtle dark backdrop so transparency reads */
 .bg-samp-scene {
-  background:
-    radial-gradient(ellipse at 25% 15%, rgba(120, 120, 120, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 85%, rgba(60, 60, 60, 0.25) 0%, transparent 60%),
-    linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 60%, #050505 100%);
+  background-image: url('/gta-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .bg-samp-vignette {
