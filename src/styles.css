@@ -192,9 +192,14 @@
     radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-/* Hide scrollbar entirely — GTA-like clean overlay, prevents flicker on new messages */
-.samp-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+/* Subtle translucent scrollbar — GTA-like overlay */
+.samp-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
 .samp-scroll::-webkit-scrollbar-track { background: transparent; }
-.samp-scroll::-webkit-scrollbar-thumb { background: #000; border-radius: 9999px; }
-.samp-scroll::-webkit-scrollbar-thumb:hover { background: #111; }
-.samp-scroll { scrollbar-width: thin; scrollbar-color: #000 transparent; }
+.samp-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+.samp-scroll:hover::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.45); }
+.samp-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.6); }
+.samp-scroll { scrollbar-width: thin; scrollbar-color: rgba(0, 0, 0, 0.3) transparent; }
