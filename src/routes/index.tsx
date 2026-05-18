@@ -169,13 +169,11 @@ function Index() {
           <div
             ref={listRef}
             onScroll={onListScroll}
-            className={`samp-text flex flex-col gap-1 overflow-y-auto samp-scroll pr-1 text-[14px] leading-[1.45] ${
-              typing ? "pointer-events-auto" : "pointer-events-none"
-            }`}
+            className="samp-text pointer-events-auto flex flex-col gap-1 overflow-y-auto samp-scroll pr-1 text-[14px] leading-[1.45]"
             style={{ height: "calc(16 * 1.45 * 14px + 15 * 4px)" }}
           >
             <AnimatePresence initial={false}>
-              {messages.slice(-16).map((m) => (
+              {messages.map((m) => (
                 <motion.div
                   key={m.id}
                   initial={{ opacity: 0, y: 6, filter: "blur(2px)" }}
