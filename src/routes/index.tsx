@@ -187,17 +187,24 @@ function Index() {
             </AnimatePresence>
           </div>
 
-          {typing && unread > 0 && (
-            <button
-              type="button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={scrollToBottom}
-              className="pointer-events-auto absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/10 bg-black/70 px-3 py-1 text-[11px] font-medium text-white/80 backdrop-blur-md transition hover:bg-black/85 hover:text-white"
-            >
-              <ArrowDown className="size-3" />
-              {unread} nuevo{unread > 1 ? "s" : ""}
-            </button>
-          )}
+          <AnimatePresence>
+            {unread > 0 && (
+              <motion.button
+                key="unread-pill"
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={scrollToBottom}
+                initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.9 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="pointer-events-auto absolute -bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-medium text-white/90 shadow-lg backdrop-blur-md transition hover:bg-black/80 hover:text-white"
+              >
+                <ArrowDown className="size-3" />
+                {unread} nuevo{unread > 1 ? "s" : ""} mensaje{unread > 1 ? "s" : ""}
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
 
         <AnimatePresence initial={false}>
