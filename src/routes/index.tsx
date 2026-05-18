@@ -169,7 +169,7 @@ function Index() {
           <div
             ref={listRef}
             onScroll={onListScroll}
-            className="samp-text pointer-events-auto flex flex-col gap-1 overflow-y-auto samp-scroll pr-1 text-[14px] leading-[1.45]"
+            className={`samp-text pointer-events-auto flex flex-col gap-1 overflow-y-auto pr-1 text-[14px] leading-[1.45] ${typing ? "samp-scroll" : "samp-scroll-hidden"}`}
             style={{ height: "calc(16 * 1.45 * 14px + 15 * 4px)" }}
           >
             <AnimatePresence initial={false}>
