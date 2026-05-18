@@ -188,7 +188,7 @@ function Index() {
           </div>
 
           <AnimatePresence>
-            {unread > 0 && (
+            {typing && unread > 0 && (
               <motion.button
                 key="unread-pill"
                 type="button"
