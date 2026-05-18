@@ -169,8 +169,8 @@ function Index() {
           <div
             ref={listRef}
             onScroll={onListScroll}
-            className={`samp-text flex flex-col gap-1 samp-scroll pr-1 text-[14px] leading-[1.45] ${
-              typing ? "pointer-events-auto overflow-y-auto" : "pointer-events-none overflow-hidden"
+            className={`samp-text flex flex-col gap-1 overflow-y-auto samp-scroll pr-1 text-[14px] leading-[1.45] ${
+              typing ? "pointer-events-auto" : "pointer-events-none"
             }`}
             style={{ height: "calc(16 * 1.45 * 14px + 15 * 4px)" }}
           >
