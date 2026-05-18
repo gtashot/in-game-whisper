@@ -203,3 +203,7 @@
 .samp-scroll:hover::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.45); }
 .samp-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.6); }
 .samp-scroll { scrollbar-width: thin; scrollbar-color: rgba(0, 0, 0, 0.3) transparent; }
+
+/* Hidden scrollbar when chat input is closed */
+.samp-scroll-hidden::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.samp-scroll-hidden { scrollbar-width: none; -ms-overflow-style: none; }
