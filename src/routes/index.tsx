@@ -169,7 +169,7 @@ function Index() {
           <div
             ref={listRef}
             onScroll={onListScroll}
-            className="samp-text pointer-events-auto flex flex-col gap-1 overflow-y-auto samp-scroll pr-1 text-[14px] leading-[1.45]"
+            className={`samp-text pointer-events-auto flex flex-col gap-1 overflow-y-auto pr-1 text-[14px] leading-[1.45] ${typing ? "samp-scroll" : "samp-scroll-hidden"}`}
             style={{ height: "calc(16 * 1.45 * 14px + 15 * 4px)" }}
           >
             <AnimatePresence initial={false}>
@@ -188,7 +188,7 @@ function Index() {
           </div>
 
           <AnimatePresence>
-            {unread > 0 && (
+            {typing && unread > 0 && (
               <motion.button
                 key="unread-pill"
                 type="button"
@@ -525,7 +525,7 @@ function Minimap() {
   ];
   return (
     <div className="pointer-events-none absolute bottom-5 left-5 select-none">
-      <div className="rounded-xl border border-white/[0.06] bg-black/30 p-[3px] pb-2 shadow-[0_6px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+      <div className="rounded-xl border border-white/10 bg-black/70 p-[3px] pb-2 shadow-[0_6px_24px_rgba(0,0,0,0.5)] backdrop-blur-xl">
         <div className="relative h-[170px] w-[250px] overflow-hidden rounded-[10px] bg-white">
           {/* Subtle grid */}
           <div
