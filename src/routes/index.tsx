@@ -616,24 +616,42 @@ function Minimap() {
 function PlayerCard() {
   return (
     <div className="pointer-events-none absolute right-5 top-20 z-30 select-none">
-      <div className="relative flex items-stretch gap-3">
-        {/* Gradient long bar fading to the left */}
-        <div className="relative flex w-[320px] items-center justify-end overflow-hidden rounded-sm pl-16 pr-4">
+      <div className="relative flex items-stretch gap-0">
+        {/* Gradient long bar fading to the left - Vice City pink/purple */}
+        <div className="relative flex w-[300px] items-center justify-end overflow-hidden pl-16 pr-3">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to left, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0) 100%)",
+                "linear-gradient(to left, rgba(20,5,30,0.85) 0%, rgba(40,10,55,0.7) 35%, rgba(80,20,90,0.35) 70%, rgba(255,0,170,0) 100%)",
             }}
           />
           <div className="samp-text relative text-right leading-tight">
-            <div className="text-[15px] font-semibold uppercase tracking-wider text-white">Jason</div>
-            <div className="mt-0.5 text-[12px] font-medium uppercase tracking-wider text-white/85">Friday 12:09</div>
-            <div className="mt-0.5 text-[13px] font-semibold text-emerald-300">$627</div>
+            <div
+              className="text-[16px] font-bold uppercase tracking-[0.14em] text-white"
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.6), 0 0 8px rgba(255,79,200,0.45)" }}
+            >
+              Jason
+            </div>
+            <div
+              className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
+              style={{ color: "#ffb3e6", textShadow: "0 1px 1px rgba(0,0,0,0.5)" }}
+            >
+              Friday 12:09
+            </div>
+            <div
+              className="mt-0.5 text-[14px] font-bold tabular-nums"
+              style={{ color: "#7afcff", textShadow: "0 1px 1px rgba(0,0,0,0.5), 0 0 6px rgba(122,252,255,0.35)" }}
+            >
+              $627
+            </div>
           </div>
         </div>
-        {/* Avatar */}
-        <div className="relative size-[78px] shrink-0 overflow-hidden rounded-sm border border-white/10 bg-black shadow-[0_4px_18px_rgba(0,0,0,0.6)]">
+        {/* Avatar - square, no border */}
+        <div
+          className="relative size-[78px] shrink-0 overflow-hidden bg-black"
+          style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,79,200,0.25), 0 0 12px -2px rgba(255,79,200,0.35)" }}
+        >
           <img
             src="/player-avatar.jpg"
             alt="Player avatar"
@@ -642,9 +660,15 @@ function PlayerCard() {
             loading="lazy"
             className="size-full object-cover"
           />
+          {/* subtle inner gradient for depth */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "linear-gradient(180deg, rgba(255,79,200,0.08) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.25) 100%)" }}
+          />
         </div>
       </div>
     </div>
   );
 }
+
 
