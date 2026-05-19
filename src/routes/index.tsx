@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Smile, Sticker, Image as ImageIcon, Hash, Settings, CornerDownLeft, ArrowDown, UserPlus, EyeOff, Ban, Flag, Reply, Crown, Briefcase, Phone, ShieldAlert, Car, DollarSign, Radio, type LucideIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -90,9 +92,18 @@ function Index() {
   const onListScroll = () => {
     const el = listRef.current;
     if (!el) return;
-    const isBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 8;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    const isBottom = distance < 8;
     atBottomRef.current = isBottom;
-    if (isBottom) setUnread(0);
+    if (isBottom) {
+      setUnread(0);
+    } else {
+      // Dynamically reduce unread as user scrolls down toward the bottom.
+      // Approximate one message ~ one line-height (≈ 20px).
+      const perMessage = 20;
+      const remaining = Math.min(unread, Math.ceil(distance / perMessage));
+      if (remaining !== unread) setUnread(remaining);
+    }
   };
 
 
@@ -151,11 +162,20 @@ function Index() {
       <div className="samp-text pointer-events-none absolute right-5 top-5 select-none text-right text-[12px] font-semibold leading-tight text-white">
         <div className="flex items-center justify-end gap-1.5">
           <span>Press</span>
-          <kbd className="rounded border border-white/20 bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] text-white">T</kbd>
+          <kbd className="rounded bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] text-white ring-2 ring-white/30">T</kbd>
           <span>to chat</span>
         </div>
         <div className="mt-1 text-white/80">Try /me waves</div>
       </div>
+
+      {/* Watermark */}
+      <div className="samp-text pointer-events-none absolute bottom-3 right-5 select-none font-mono text-[11px] text-white/50">
+        gtashot.com v1.0.0
+      </div>
+
+
+      {/* Player info card */}
+      <PlayerCard />
 
       {/* GTA V style notifications */}
       <Notifications />
@@ -264,59 +284,70 @@ function Index() {
 
 function ChatLine({ m }: { m: ChatMessage }) {
   const [openMenu, setOpenMenu] = useState<null | "name" | "msg">(null);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!openMenu) return;
-    const onDown = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setOpenMenu(null);
-    };
-    window.addEventListener("mousedown", onDown);
-    return () => window.removeEventListener("mousedown", onDown);
-  }, [openMenu]);
 
   if (m.type === "chat") {
-    const isOther = m.author && m.author !== "You";
+    const isOther = !!m.author && m.author !== "You";
     return (
-      <div ref={ref} className="relative text-white/90">
-        <button
-          type="button"
-          disabled={!isOther}
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={() => isOther && setOpenMenu(openMenu === "name" ? null : "name")}
-          className="font-semibold text-white hover:underline disabled:no-underline disabled:cursor-default"
+      <div className="text-white/90">
+        <Popover
+          open={openMenu === "name"}
+          onOpenChange={(o) => setOpenMenu(o ? "name" : null)}
         >
-          {m.author}
-        </button>
-        <span className="text-white/50">: </span>
-        <button
-          type="button"
-          disabled={!isOther}
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={() => isOther && setOpenMenu(openMenu === "msg" ? null : "msg")}
-          className="text-left text-white/85 hover:text-white disabled:hover:text-white/85 disabled:cursor-default"
-        >
-          {m.text}
-        </button>
-        {openMenu === "name" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-md border border-white/15 bg-neutral-950">
-            <div className="border-b border-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              disabled={!isOther}
+              onMouseDown={(e) => e.preventDefault()}
+              className="font-semibold text-white hover:underline disabled:no-underline disabled:cursor-default"
+            >
               {m.author}
-            </div>
-            <MenuItem icon={<UserPlus className="size-3.5" />}>Agregar como amigo</MenuItem>
-            <MenuItem icon={<EyeOff className="size-3.5" />}>Ocultar</MenuItem>
-            <MenuItem icon={<Ban className="size-3.5" />}>Ignorar</MenuItem>
-          </div>
-        )}
-        {openMenu === "msg" && isOther && (
-          <div className="absolute left-0 top-full z-20 mt-1 min-w-[160px] overflow-hidden rounded-md border border-white/15 bg-neutral-950">
-            <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
-            <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
-          </div>
-        )}
+            </button>
+          </PopoverTrigger>
+          {isOther && (
+            <PopoverContent
+              align="start"
+              sideOffset={4}
+              className="z-[60] w-auto min-w-[180px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 p-0 text-white"
+            >
+              <div className="border-b border-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ color: m.color ?? "#fff" }}>
+                {m.author}
+              </div>
+              <MenuItem icon={<UserPlus className="size-3.5" />}>Agregar como amigo</MenuItem>
+              <MenuItem icon={<EyeOff className="size-3.5" />}>Ocultar</MenuItem>
+              <MenuItem icon={<Ban className="size-3.5" />}>Ignorar</MenuItem>
+            </PopoverContent>
+          )}
+        </Popover>
+        <span className="text-white/50">: </span>
+        <Popover
+          open={openMenu === "msg"}
+          onOpenChange={(o) => setOpenMenu(o ? "msg" : null)}
+        >
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              disabled={!isOther}
+              onMouseDown={(e) => e.preventDefault()}
+              className="text-left text-white/85 hover:text-white disabled:hover:text-white/85 disabled:cursor-default"
+            >
+              {m.text}
+            </button>
+          </PopoverTrigger>
+          {isOther && (
+            <PopoverContent
+              align="start"
+              sideOffset={4}
+              className="z-[60] w-auto min-w-[160px] overflow-hidden rounded-md border border-white/15 bg-neutral-950 p-0 text-white"
+            >
+              <MenuItem icon={<Reply className="size-3.5" />}>Responder</MenuItem>
+              <MenuItem icon={<Flag className="size-3.5" />}>Reportar</MenuItem>
+            </PopoverContent>
+          )}
+        </Popover>
       </div>
     );
   }
+
   if (m.type === "action") return <div className="italic text-white/55">{m.text}</div>;
   if (m.type === "server") return <div className="text-white/45">{m.text}</div>;
   return <div className="text-white/60">{m.text}</div>;
@@ -454,7 +485,7 @@ function Notifications() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute right-5 top-20 z-30 flex w-[340px] flex-col items-end gap-2">
+    <div className="pointer-events-none absolute right-5 top-[190px] z-30 flex w-[340px] flex-col items-end gap-2">
       <AnimatePresence initial={false}>
         {items.map((n) => (
           <motion.div
@@ -580,5 +611,64 @@ function Minimap() {
 }
 
 
+
+
+function PlayerCard() {
+  return (
+    <div className="pointer-events-none absolute right-5 top-20 z-30 select-none">
+      <div className="relative flex items-stretch gap-0">
+        {/* Gradient long bar fading to the left - Vice City pink/purple */}
+        <div className="relative flex w-[300px] items-center justify-end overflow-hidden pl-16 pr-3">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to left, rgba(20,5,30,0.85) 0%, rgba(40,10,55,0.7) 35%, rgba(80,20,90,0.35) 70%, rgba(255,0,170,0) 100%)",
+            }}
+          />
+          <div className="samp-text relative text-right leading-tight">
+            <div
+              className="text-[16px] font-bold uppercase tracking-[0.14em] text-white"
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.6), 0 0 8px rgba(255,79,200,0.45)" }}
+            >
+              Jason
+            </div>
+            <div
+              className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
+              style={{ color: "#ffb3e6", textShadow: "0 1px 1px rgba(0,0,0,0.5)" }}
+            >
+              Friday 12:09
+            </div>
+            <div
+              className="mt-0.5 text-[14px] font-bold tabular-nums"
+              style={{ color: "#7afcff", textShadow: "0 1px 1px rgba(0,0,0,0.5), 0 0 6px rgba(122,252,255,0.35)" }}
+            >
+              $627
+            </div>
+          </div>
+        </div>
+        {/* Avatar - square, no border */}
+        <div
+          className="relative size-[78px] shrink-0 overflow-hidden bg-black"
+          style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,79,200,0.25), 0 0 12px -2px rgba(255,79,200,0.35)" }}
+        >
+          <img
+            src="/player-avatar.jpg"
+            alt="Player avatar"
+            width={512}
+            height={512}
+            loading="lazy"
+            className="size-full object-cover"
+          />
+          {/* subtle inner gradient for depth */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "linear-gradient(180deg, rgba(255,79,200,0.08) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.25) 100%)" }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 
