@@ -629,32 +629,28 @@ function PlayerCard() {
           <div className="samp-text relative text-right leading-tight">
             <div
               className="text-[16px] font-bold uppercase tracking-[0.14em] text-white"
-              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.7)" }}
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.6), 0 0 8px rgba(255,79,200,0.45)" }}
             >
               Jason
             </div>
             <div
-              className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/90"
-              style={{ textShadow: "0 1px 1px rgba(0,0,0,0.6)" }}
+              className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
+              style={{ color: "#ffb3e6", textShadow: "0 1px 1px rgba(0,0,0,0.5)" }}
             >
               Friday 12:09
             </div>
             <div
-              className="mt-0.5 text-[14px] font-bold tabular-nums text-white"
-              style={{ textShadow: "0 1px 1px rgba(0,0,0,0.6)" }}
+              className="mt-0.5 text-[14px] font-bold tabular-nums"
+              style={{ color: "#7afcff", textShadow: "0 1px 1px rgba(0,0,0,0.5), 0 0 6px rgba(122,252,255,0.35)" }}
             >
               $627
             </div>
           </div>
         </div>
-        {/* Avatar - square, no colored border, unique corner notch design */}
+        {/* Avatar - square, no border */}
         <div
           className="relative size-[78px] shrink-0 overflow-hidden bg-black"
-          style={{
-            boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
-            clipPath:
-              "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))",
-          }}
+          style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,79,200,0.25), 0 0 12px -2px rgba(255,79,200,0.35)" }}
         >
           <img
             src="/player-avatar.jpg"
@@ -664,28 +660,12 @@ function PlayerCard() {
             loading="lazy"
             className="size-full object-cover"
           />
-          {/* corner accent lines */}
-          <span
-            className="pointer-events-none absolute right-0 top-0 h-[14px] w-[14px]"
-            style={{
-              background:
-                "linear-gradient(225deg, rgba(255,79,200,0.9) 0%, rgba(255,79,200,0.9) 50%, transparent 50%)",
-            }}
-          />
-          <span
-            className="pointer-events-none absolute bottom-0 left-0 h-[14px] w-[14px]"
-            style={{
-              background:
-                "linear-gradient(45deg, rgba(122,252,255,0.85) 0%, rgba(122,252,255,0.85) 50%, transparent 50%)",
-            }}
-          />
-          {/* subtle inner depth */}
+          {/* subtle inner gradient for depth */}
           <div
             className="pointer-events-none absolute inset-0"
-            style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.3) 100%)" }}
+            style={{ background: "linear-gradient(180deg, rgba(255,79,200,0.08) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.25) 100%)" }}
           />
         </div>
-
       </div>
     </div>
   );
