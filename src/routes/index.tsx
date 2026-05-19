@@ -617,40 +617,43 @@ function PlayerCard() {
   return (
     <div className="pointer-events-none absolute right-5 top-20 z-30 select-none">
       <div className="relative flex items-stretch gap-0">
-        {/* Gradient long bar fading to the left - Vice City pink/purple */}
-        <div className="relative flex w-[300px] items-center justify-end overflow-hidden pl-16 pr-3">
+        {/* Shorter gradient bar with unique pink/purple Vice City fade */}
+        <div className="relative flex w-[200px] items-center justify-end overflow-hidden pl-10 pr-3">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to left, rgba(20,5,30,0.85) 0%, rgba(40,10,55,0.7) 35%, rgba(80,20,90,0.35) 70%, rgba(255,0,170,0) 100%)",
+                "linear-gradient(to left, rgba(25,8,35,0.9) 0%, rgba(50,12,70,0.6) 50%, rgba(80,20,110,0) 100%)",
             }}
           />
           <div className="samp-text relative text-right leading-tight">
             <div
               className="text-[16px] font-bold uppercase tracking-[0.14em] text-white"
-              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.6), 0 0 8px rgba(255,79,200,0.45)" }}
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.85)" }}
             >
               Jason
             </div>
             <div
-              className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
-              style={{ color: "#ffb3e6", textShadow: "0 1px 1px rgba(0,0,0,0.5)" }}
+              className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white"
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.85)" }}
             >
               Friday 12:09
             </div>
             <div
-              className="mt-0.5 text-[14px] font-bold tabular-nums"
-              style={{ color: "#7afcff", textShadow: "0 1px 1px rgba(0,0,0,0.5), 0 0 6px rgba(122,252,255,0.35)" }}
+              className="mt-0.5 text-[14px] font-bold tabular-nums text-white"
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.85)" }}
             >
               $627
             </div>
           </div>
         </div>
-        {/* Avatar - square, no border */}
+        {/* Avatar - square, no colored border, unique compact shadow */}
         <div
           className="relative size-[78px] shrink-0 overflow-hidden bg-black"
-          style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,79,200,0.25), 0 0 12px -2px rgba(255,79,200,0.35)" }}
+          style={{
+            boxShadow:
+              "0 3px 0 rgba(0,0,0,0.55), 3px 3px 0 rgba(255,79,200,0.6), 4px 4px 8px -2px rgba(140,30,180,0.5)",
+          }}
         >
           <img
             src="/player-avatar.jpg"
@@ -659,11 +662,6 @@ function PlayerCard() {
             height={512}
             loading="lazy"
             className="size-full object-cover"
-          />
-          {/* subtle inner gradient for depth */}
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{ background: "linear-gradient(180deg, rgba(255,79,200,0.08) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.25) 100%)" }}
           />
         </div>
       </div>
